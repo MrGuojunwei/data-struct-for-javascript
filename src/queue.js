@@ -3,7 +3,7 @@
  * @Author: 郭军伟
  * @Date: 2020-06-28 15:19:32
  * @LastEditors: 郭军伟
- * @LastEditTime: 2020-06-28 20:09:09
+ * @LastEditTime: 2020-06-28 21:11:55
  */
 let log = console.log;
 const fs = require('fs');
@@ -139,3 +139,21 @@ function disArr(nums, queues) {
 
 disArr(nums1, queues);
 disArr(nums2, queues);
+
+// 优先级队列  打破了先进先出的规则，根据优先级来调整队列出去的顺序，实现就是在删除的时候，利用splice删除优先级最高的元素
+function Patient(name, code) {
+  this.name = name;
+  this.code = code;
+}
+function dequeue() {
+  var priority = this.front().code;
+  for (var i = 1; i < this.dataStore.length; i++) {
+    if (this.dataStore[i] > priority) {
+      priority = this.dataStore[i].code;
+    }
+  }
+  this.dataStore.splice(
+    this.dataStore.findIndex((item) => item.code === priority),
+    1
+  );
+}
