@@ -3,7 +3,7 @@
  * @Author: 郭军伟
  * @Date: 2020-06-28 15:19:32
  * @LastEditors: 郭军伟
- * @LastEditTime: 2020-06-28 21:11:55
+ * @LastEditTime: 2020-07-01 09:59:22
  */
 let log = console.log;
 const fs = require('fs');
@@ -49,7 +49,7 @@ class Queue {
 // log('Back of queue: ' + q.back());
 
 // 队列案例
-// 案例1： 方块舞得舞伴分配
+// 案例1： 方块舞的舞伴分配
 function Dancer(name, sex) {
   this.name = name;
   this.sex = sex;
@@ -107,9 +107,11 @@ function distribute(nums, queues, digit) {
     if (digit === 1) {
       //个位
       queues[nums[i] % 10].enqueue(nums[i]);
-    } else {
+    } else if (digit === 2) {
       // 十位
-      queues[~~(nums[i] / 10)].enqueue(nums[i]);
+      queues[(~~(nums[i] / 10)) % 10].enqueue(nums[i]);
+    } else if (digit === 3) {
+      queues[~~(nums[i] / 100)].enqueue(nums[i]);
     }
   }
 }
@@ -127,12 +129,14 @@ function collect(queues) {
 }
 
 let queues = new Array(10).fill(0).map(() => new Queue());
-let nums1 = [45, 72, 93, 51, 21, 16, 70, 41, 27, 31];
-let nums2 = [76, 77, 15, 84, 79, 71, 69, 99, 6, 54];
+let nums1 = [455, 724, 963, 551, 214, 164, 750, 451, 257, 314];
+let nums2 = [76, 77, 185, 84, 79, 71, 689, 99, 6, 54];
 function disArr(nums, queues) {
   distribute(nums, queues, 1);
   nums = collect(queues);
   distribute(nums, queues, 2);
+  nums = collect(queues);
+  distribute(nums, queues, 3);
   nums = collect(queues);
   log(nums.join(' '));
 }
